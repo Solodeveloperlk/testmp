@@ -1,58 +1,62 @@
-const config = require('../config')
-const { cmd, commands } = require('../command')
-const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../lib/functions')
-var { updateCMDStore,isbtnID,getCMDStore,getCmdForCmdId,connectdb,input,get, updb,updfb } = require("../lib/githubdb")
+const config = require('../config');
+const { cmd, commands } = require('../command');
+const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../lib/functions');
+var { updateCMDStore, isbtnID, getCMDStore, getCmdForCmdId, connectdb, input, get, updb, updfb } = require("../lib/githubdb");
 
+// Define desc2 variable with a description for the settings command
+const desc2 = "Change bot settings like prefix";
+
+// settings command
 cmd({
     pattern: "settings",
     react: "🛡️",
-    alias: ["setting",'botsetting'],
-    desc: desc2,
+    alias: ["setting", 'botsetting'],
+    desc: desc2, // Now desc2 is defined
     category: "owner",
     use: '.settings',
     filename: __filename
 },
-async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-if (!isMe) return await reply("Owner only")
-if(!q) return reply("Please give me text")
-  
-let numrep = []
-let pakaya = `1.1 SET PREFIX`
-numrep.push(`1.1 ${prefix}prefix ${q}` )  
-	
-const mass = await conn.sendMessage(from, { image: { url: `https://i.postimg.cc/zvpdnfsK/1727229710389.jpg`  }, caption: `${pakaya}\n\n` }, { quoted: mek });
-	
-          const jsonmsg = {
-            key : mass.key,
+async (conn, mek, m, { from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+    try {
+        if (!isMe) return await reply("Owner only");
+        if (!q) return reply("Please give me text");
+
+        let numrep = [];
+        let pakaya = `1.1 SET PREFIX`;
+        numrep.push(`1.1 ${prefix}prefix ${q}`);
+
+        const mass = await conn.sendMessage(from, { image: { url: `https://i.postimg.cc/zvpdnfsK/1727229710389.jpg` }, caption: `${pakaya}\n\n` }, { quoted: mek });
+
+        const jsonmsg = {
+            key: mass.key,
             numrep,
-            method : 'decimal'
-           }
-await storenumrepdata(jsonmsg)
-	
-} catch (e) {
-console.log(e)
-reply(e)
-}
-})
+            method: 'decimal'
+        };
+        await storenumrepdata(jsonmsg);
 
+    } catch (e) {
+        console.log(e);
+        reply(e);
+    }
+});
 
+// prefix command
 cmd({
     pattern: "prefix",
     dontAddCommandList: true,
     filename: __filename
 },
-async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-if (!isMe) return await reply("Owner only")
-let gett = await get("PREFIX")
-if(gett === q) return await reply("Allready Done")
-await input("PREFIX", q)
+async (conn, mek, m, { from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+    try {
+        if (!isMe) return await reply("Owner only");
+        let gett = await get("PREFIX");
+        if (gett === q) return await reply("Already Done");
+        await input("PREFIX", q);
 
-await reply("*PREFIX updated: " + q + "*")
+        await reply("*PREFIX updated: " + q + "*");
 
-} catch (e) {
-reply('*Error !!*')
-l(e)
-}
-})
+    } catch (e) {
+        reply('*Error !!*');
+        l(e);
+    }
+});
