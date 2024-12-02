@@ -9,7 +9,7 @@ function formatNumber(num) {
 
 
 cmd({
-    pattern: "sd2",
+    pattern: "ssd2",
     react: "🎥",
     desc: "Download movie for sinhalasub.lk",
     category: "download",
